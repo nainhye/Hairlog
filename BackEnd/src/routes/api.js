@@ -1,12 +1,17 @@
 var express = require('express');
 var router = express.Router();
 
-var User = require("../../../DB/sequelize/models/User")
-var Record = require("../../../DB/sequelize/models/Record")
+var passport = require('../middlewares/passport');
+const sign = require('../function/CheckAPIKey');
 
-/* GET home page. */
-router.post('/join', function (req, res) {
 
-});
+router.post('/join', passport.join, passport.authenticate);
+router.post('/swagger/join', sign.checkApiKey, passport.join, passport.authenticate);
+
+
+router.post('/test', passport.test);
+router.post('/joinDelete', passport.delete)
+router.post('/authenticate', passport.authenticate);
+
 
 module.exports = router;

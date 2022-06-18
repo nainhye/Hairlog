@@ -21,8 +21,7 @@ const options = {
       }
     ]
   },
-  // swagger 설정한 파일 위치
-  apis: [], 
+  apis: ["./BackEnd/swagger/config/*.js"]
 }
 const specs = swaggereJsdoc(options)
 

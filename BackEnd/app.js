@@ -2,6 +2,7 @@
 var createError = require('http-errors'),
     express = require('express'),
     path = require('path'),
+    passport = require('passport'),
     session = require('express-session'),
     cookieParser = require('cookie-parser'),
     logger = require('morgan');
@@ -15,12 +16,15 @@ var indexRouter = require('./src/routes/index'),
 
 
 // add config 
-dotenv = require('dotenv'),
-sequelize = require('../DB/sequelize/models').sequelize;
+var dotenv = require('dotenv'),
+    sequelize = require('../DB/sequelize/models').sequelize,
+    passportConfig = require('./passport');
 
 // config
 dotenv.config();
 sequelize.sync();
+passportConfig();
+
 
 // express start
 var app = express();
@@ -51,12 +55,18 @@ app.use(session({
 }));
 app.use(cookieParser());
 
+app.use(passport.initialize());
+app.use(passport.session());
+
+const Swagger = require('./swagger/Swagger');
 
 // add router
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api', apiTest);
 app.use('/api-docs', apiDocsRouter);
+
+
 
 
 // catch 404 and forward to error handler
