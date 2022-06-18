@@ -9,16 +9,16 @@ var createError = require('http-errors'),
 
 
 // router
-var indexRouter = require('./src/routes/index'),
-    usersRouter = require('./src/routes/users'),
-    apiTest = require('./src/routes/api')
-    apiDocsRouter = require('./src/routes/api-docs');
+var indexRouter = require('./BackEnd/src/routes/index'),
+    usersRouter = require('./BackEnd/src/routes/users'),
+    apiTest = require('./BackEnd/src/routes/api')
+    apiDocsRouter = require('./BackEnd/src/routes/api-docs');
 
 
 // add config 
 var dotenv = require('dotenv'),
-    sequelize = require('../DB/sequelize/models').sequelize,
-    passportConfig = require('./passport');
+    sequelize = require('./DB/sequelize/models').sequelize,
+    passportConfig = require('./BackEnd/passport');
 
 // config
 dotenv.config();
@@ -35,7 +35,7 @@ app.set('httpPort', process.env.HTTP_PORT || 3000);
 
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '/BackEnd/views'));
 app.set('view engine', 'jade');
 
 
@@ -43,7 +43,7 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/BackEnd/public')));
 app.use(session({
   resave : false,
   saveUninitialized : false,
@@ -58,7 +58,7 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
-const Swagger = require('./swagger/Swagger');
+const Swagger = require('./BackEnd/swagger/Swagger');
 
 // add router
 app.use('/', indexRouter);
