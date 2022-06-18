@@ -10,6 +10,7 @@ var createError = require('http-errors'),
 // router
 var indexRouter = require('./src/routes/index'),
     usersRouter = require('./src/routes/users'),
+    apiTest = require('./src/routes/api')
     apiDocsRouter = require('./src/routes/api-docs');
 
 
@@ -54,6 +55,7 @@ app.use(cookieParser());
 // add router
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api', apiTest);
 app.use('/api-docs', apiDocsRouter);
 
 
