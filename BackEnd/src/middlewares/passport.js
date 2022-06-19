@@ -1,20 +1,25 @@
 var passport = require('passport');
+const bcrypt = require('bcrypt');
+
 
 var User = require('../../../DB/sequelize/models/User');
 
 exports.join = async (req, res, next) => {
-    const { name, sex, cycle } = req.body;
+    const { email, password, name, sex, cycle } = req.body;
     try {
       const exUser = await User.findOne({ where: { name } });
       if (exUser) {
         return res.redirect('/join?error=exist');
       }
+      const hash = await bcrypt.hash(password, 12);
       await User.create({
+        email,
+        password : hash,
         name,
         sex,
         cycle,
       });
-      next();
+      return res.send("Join Success");
     } catch (error) {
       console.error(error);
       return next(error);
@@ -35,18 +40,29 @@ exports.authenticate = (req, res, next) => {
           console.error(loginError);
           return next(loginError);
         };
-        return res.send("done")
+        return res.send("Login Success")
       });
     })(req, res, next);
 };
 
+exports.isLoggedIn = (req, res, next) => {
+  if (req.isAuthenticated()) {
+      next();
+  } else {
+      res.status(403).send('로그인 필요');
+  }
+};
 
-exports.test = async (req, res, next) => {
-  const exUser = await User.findOne({ where: { name : "나나김" } });
-  res.send(exUser);
-}
+exports.isNotLoggedIn = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+      next();
+  } else {
+      const message = encodeURIComponent('로그인한 상태입니다.');
+      res.redirect(`/?error=${message}`);
+  }
+};
 
-exports.delete = async (req, res, next) => {
+exports.deleteAPITest = async (req, res, next) => {
     await User.destroy({ where: { name:  "나나김"} });
     res.send("delete")
 };

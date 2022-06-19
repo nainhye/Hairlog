@@ -9,6 +9,12 @@
 *      - sex
 *      type: object
 *      properties:
+*        email:
+*          type: string
+*          example: nanakim@gmail.com
+*        password:
+*          type: string
+*          example: 1234
 *        name:
 *          type: string
 *          example: 나나김

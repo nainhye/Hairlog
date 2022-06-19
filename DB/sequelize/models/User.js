@@ -3,6 +3,23 @@ const { DataTypes, Sequelize } = require('sequelize');
 module.exports = class User extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
+      email: {
+        type: DataTypes.STRING(40),
+        allowNull: true,
+        unique: false,
+        validate : {
+          email(value){
+            var isEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+            if (isEmail.test(value) === false) {
+              throw new Error('이메일을 입력해주세요!');
+            }
+          }
+        }
+      },
+      password: {
+        type: DataTypes.STRING(100),
+        allowNull: true,
+      },
       name: {
         type: DataTypes.STRING(40),
         allowNull: true,
