@@ -24,13 +24,6 @@ router.post('/authenticate', passport.authenticate);
 router.post('/swagger/authenticate', sign.checkApiKey, passport.authenticate);
 
 
-router.post('/singleMulter', passport.isLoggedIn, multer.single("Image"), function(req,res){
-    res.send(req.file)
-});
-router.post('/swagger/singleMulter',sign.checkApiKey, passport.isLoggedIn, multer.single("Image"), function(req,res){
-    res.send(req.file)
-});
-
 router.post('/singleRecord', passport.isLoggedIn, multer.single("Image"), async function(req, res) {
     var {date, cost, time, designerName, etc, grade} = req.body;
     var user = await User.findOne({where : {id : req.user.id}});
@@ -42,7 +35,7 @@ router.post('/singleRecord', passport.isLoggedIn, multer.single("Image"), async 
     } else {
         var record = await user.createRecord({ date, cost, time, etc, grade })
         var image = await record.createImage({ img1 : req.file.filename})
-        var result = {record, image}
+        var result = {record, image} 
     }
     res.send(result)
 })
