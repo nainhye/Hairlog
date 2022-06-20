@@ -40,6 +40,6 @@ module.exports = class Record extends Sequelize.Model {
   
   static associate(db) {
     db.Record.belongsTo(db.User)
-    db.Record.hasMany(db.Image)
+    db.Record.hasOne(db.Image)
   }
 };

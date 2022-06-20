@@ -1,10 +1,19 @@
 /**
 *@swagger
-* /api/swagger/singleMulter:
+* /api/swagger/getRecord:
+*   get:
+*     tags:
+*     - Record
+*     summary: Single Recod 결과
+*     responses:
+*       "200":
+*         description: "successful operation"
+*
+* /api/swagger/singleRecord:
 *   post:
 *     tags:
-*     - Multer
-*     summary: Single Multer
+*     - Record
+*     summary: Single Record 요청
 *     consumes:
 *     - "multipart/form-data"
 *     produces:
@@ -13,11 +22,7 @@
 *       content:
 *         multipart/form-data:
 *           schema:
-*             type: object
-*             properties:
-*               Image:
-*                 type: string
-*                 format: base64
+*               $ref: '#/components/schemas/User'
 *           encoding:
 *             profileImage:
 *               contentType: image/png, image/jpeg
