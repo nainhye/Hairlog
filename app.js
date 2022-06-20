@@ -22,7 +22,7 @@ var dotenv = require('dotenv'),
 
 // config
 dotenv.config();
-sequelize.sync({force : true});
+sequelize.sync();
 passportConfig();
 
 
