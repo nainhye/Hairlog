@@ -11,6 +11,10 @@ var User = require('../../../DB/sequelize/models/User');
 var Record = require('../../../DB/sequelize/models/Record');
 var Image = require('../../../DB/sequelize/models/Image');
 var Designer = require('../../../DB/sequelize/models/Designer');
+var Cut = require('../../../DB/sequelize/models/Cut');
+var Perm = require('../../../DB/sequelize/models/Perm');
+var Dyeing = require('../../../DB/sequelize/models/Dyeing');
+
 
 
 
@@ -24,36 +28,82 @@ router.post('/authenticate', passport.authenticate);
 router.post('/swagger/authenticate', sign.checkApiKey, passport.authenticate);
 
 
-router.post('/singleRecord', passport.isLoggedIn, multer.single("Image"), async function(req, res) {
+router.post('/singleRecord/:category', passport.isLoggedIn, multer.single("Image"), async function(req, res) {
     var {date, cost, time, designerName, etc, grade} = req.body;
+    var category = req.params.category
     var user = await User.findOne({where : {id : req.user.id}});
     if(designerName) {
         var designer = await Designer.findOne({where : { designer :designerName}})
-        var record = await user.createRecord({ date, cost, time, etc, grade, DesignerId : designer.id })
+        var record = await user.createRecord({ date, cost, time, category, etc, grade, DesignerId : designer.id })
         var image = await record.createImage({ img1 : req.file.filename})
-        var result = {record, image}
     } else {
-        var record = await user.createRecord({ date, cost, time, etc, grade })
+        var record = await user.createRecord({ date, cost, time, category, etc, grade })
         var image = await record.createImage({ img1 : req.file.filename})
-        var result = {record, image} 
     }
-    res.send(result)
+    switch (category) 
+    {
+        case "cut" : 
+            var { cutName, cutLength } = req.body
+            var cut = await Cut.create({ name :cutName , length : cutLength , RecordId : record.id})
+            var result = {record, cut, image}
+            res.send(result)
+            break;
+        case "perm" : 
+            var { permName, permTime, permHurt } = req.body 
+            var perm = await Perm.create({name : permName, time : permTime, hurt : permHurt, RecordId : record.id})
+            var result = {record, perm, image}
+            res.send(result)
+            break;
+        case "dyeing" : 
+            var { dyeingColor, dyeingDecolorization, dyeingTime, dyeingHurt } = req.body 
+            var dyeing = await Dyeing.create({color : dyeingColor, decolorization, time : dyeingTime, hurt : dyeingHurt, RecordId : record.id})
+            var result = {record, dyeing, image}
+            res.send(result)
+            break;
+        default :
+            var result = {record, image} 
+            res.send(result)
+    }
+    
 })
 
-router.post('/swagger/singleRecord', sign.checkApiKey, passport.isLoggedIn, multer.single("Image"), async function(req, res) {
+router.post('/swagger/singleRecord/:category', sign.checkApiKey, passport.isLoggedIn, multer.single("Image"), async function(req, res) {
     var {date, cost, time, designerName, etc, grade} = req.body;
+    var category = req.params.category
     var user = await User.findOne({where : {id : req.user.id}});
     if(designerName) {
         var designer = await Designer.findOne({where : { designer :designerName}})
-        var record = await user.createRecord({ date, cost, time, etc, grade, DesignerId : designer.id })
+        var record = await user.createRecord({ date, cost, time, category, etc, grade, DesignerId : designer.id })
         var image = await record.createImage({ img1 : req.file.filename})
-        var result = {record, image}
     } else {
-        var record = await user.createRecord({ date, cost, time, etc, grade })
+        var record = await user.createRecord({ date, cost, time, category, etc, grade })
         var image = await record.createImage({ img1 : req.file.filename})
-        var result = {record, image}
     }
-    res.send(result)
+    switch (category) 
+    {
+        case "cut" : 
+            var { cutName, cutLength } = req.body
+            var cut = await Cut.create({ name :cutName , length : cutLength , RecordId : record.id})
+            var result = {record, cut, image}
+            res.send(result)
+            break;
+        case "perm" : 
+            var { permName, permTime, permHurt } = req.body 
+            var perm = await Perm.create({name : permName, time : permTime, hurt : permHurt, RecordId : record.id})
+            var result = {record, perm, image}
+            res.send(result)
+            break;
+        case "dyeing" : 
+            var { dyeingColor, dyeingDecolorization, dyeingTime, dyeingHurt } = req.body 
+            var dyeing = await Dyeing.create({color : dyeingColor, decolorization, time : dyeingTime, hurt : dyeingHurt, RecordId : record.id})
+            var result = {record, dyeing, image}
+            res.send(result)
+            break;
+        default :
+            var result = {record, image} 
+            res.send(result)
+    }
+    
 })
 
 router.get('/getRecord', passport.isLoggedIn, async function(req, res) {
