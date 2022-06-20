@@ -42,6 +42,9 @@
 *        time:
 *          type: integer
 *          example: 60
+*        designerName:
+*          type: string
+*          example: 미라클
 *        etc:
 *          type: string
 *          example: this is test for API

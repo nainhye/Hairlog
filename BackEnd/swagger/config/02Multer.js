@@ -22,7 +22,7 @@
 *       content:
 *         multipart/form-data:
 *           schema:
-*               $ref: '#/components/schemas/User'
+*               $ref: '#/components/schemas/Record'
 *           encoding:
 *             profileImage:
 *               contentType: image/png, image/jpeg
