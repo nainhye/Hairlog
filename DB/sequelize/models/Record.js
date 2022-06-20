@@ -15,6 +15,14 @@ module.exports = class Record extends Sequelize.Model {
             }
         },
       },
+      cost: {
+        type: DataTypes.INTEGER(40),
+        allowNull: false,
+      },
+      time: {
+        type: DataTypes.INTEGER(40),
+        allowNull: false,
+      },
       etc: {
         type: DataTypes.STRING(300),
         allowNull: true,
@@ -40,6 +48,10 @@ module.exports = class Record extends Sequelize.Model {
   
   static associate(db) {
     db.Record.belongsTo(db.User)
+    db.Record.belongsTo(db.Designer)
     db.Record.hasOne(db.Image)
+    db.Record.hasOne(db.Cut)
+    db.Record.hasOne(db.Perm)
+    db.Record.hasOne(db.Dyeing)
   }
 };

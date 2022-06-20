@@ -5,7 +5,7 @@ module.exports = class Designer extends Sequelize.Model {
     return super.init({
       designer: {
         type: DataTypes.STRING(40),
-        allowNull: true,
+        allowNull: false,
         validate : {
             designer(value) {
                 var isDesigner =  /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
@@ -41,5 +41,6 @@ module.exports = class Designer extends Sequelize.Model {
   
   static associate(db) {
     db.Designer.belongsTo(db.User)
+    db.Designer.hasMany(db.Record)
   }
 };
