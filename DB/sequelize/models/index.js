@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const User = require('./User');
 const Record = require('./Record');
 const Image = require('./Image');
+const Designer = require('./Designer');
 
 
 
@@ -22,17 +23,22 @@ db.sequelize = sequelize;
 db.User = User;
 db.Record = Record;
 db.Image = Image;
+db.Designer = Designer;
+
 
 
 // Sequelize adds a getter & a setter for each attribute defined through Model.init
 User.init(sequelize);
 Record.init(sequelize);
 Image.init(sequelize);
+Designer.init(sequelize);
+
 
 
 User.associate(db);
 Record.associate(db);
 Image.associate(db);
+Designer.associate(db);
 
 
 module.exports = db;
