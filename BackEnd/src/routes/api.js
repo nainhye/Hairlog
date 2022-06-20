@@ -10,6 +10,8 @@ var passport = require('../middlewares/passport'),
 var User = require('../../../DB/sequelize/models/User');
 var Record = require('../../../DB/sequelize/models/Record');
 var Image = require('../../../DB/sequelize/models/Image');
+var Designer = require('../../../DB/sequelize/models/Designer');
+
 
 
 router.post('/join', passport.join);
@@ -30,19 +32,35 @@ router.post('/swagger/singleMulter',sign.checkApiKey, passport.isLoggedIn, multe
 });
 
 router.post('/singleRecord', passport.isLoggedIn, multer.single("Image"), async function(req, res) {
-    var {date, etc, grade} = req.body;
+    var {date, cost, time, designerName, etc, grade} = req.body;
     var user = await User.findOne({where : {id : req.user.id}});
-    var record = await user.createRecord({ date, etc, grade })
-    await record.createImage({ img1 : req.file.filename})
-    res.send("done")
+    if(designerName) {
+        var designer = await Designer.findOne({where : { designer :designerName}})
+        var record = await user.createRecord({ date, cost, time, etc, grade, DesignerId : designer.id })
+        var image = await record.createImage({ img1 : req.file.filename})
+        var result = {record, image}
+    } else {
+        var record = await user.createRecord({ date, cost, time, etc, grade })
+        var image = await record.createImage({ img1 : req.file.filename})
+        var result = {record, image}
+    }
+    res.send(result)
 })
 
 router.post('/swagger/singleRecord', sign.checkApiKey, passport.isLoggedIn, multer.single("Image"), async function(req, res) {
-    var {date, etc, grade} = req.body;
+    var {date, cost, time, designerName, etc, grade} = req.body;
     var user = await User.findOne({where : {id : req.user.id}});
-    var record = await user.createRecord({ date, etc, grade })
-    await record.createImage({ img1 : req.file.filename})
-    res.send("done")
+    if(designerName) {
+        var designer = await Designer.findOne({where : { designer :designerName}})
+        var record = await user.createRecord({ date, cost, time, etc, grade, DesignerId : designer.id })
+        var image = await record.createImage({ img1 : req.file.filename})
+        var result = {record, image}
+    } else {
+        var record = await user.createRecord({ date, cost, time, etc, grade })
+        var image = await record.createImage({ img1 : req.file.filename})
+        var result = {record, image}
+    }
+    res.send(result)
 })
 
 router.get('/getRecord', passport.isLoggedIn, async function(req, res) {
@@ -71,6 +89,19 @@ router.get('/swagger/getRecord', sign.checkApiKey, passport.isLoggedIn, async fu
     res.send(result)
 })
 
+router.post('/designer',passport.isLoggedIn, async function(req, res) {
+    var {designer, salon} = req.body;
+    var user = await User.findOne({wherer : {id : req.user.id}});
+    var designerRecord = await user.createDesigner({designer, salon})
+    res.send(designerRecord)
+})
+
+router.post('/swagger/designer', sign.checkApiKey, passport.isLoggedIn, async function(req, res) {
+    var {designer, salon} = req.body;
+    var user = await User.findOne({wherer : {id : req.user.id}});
+    var designerRecord = await user.createDesigner({designer, salon})
+    res.send(designerRecord)
+})
 
 router.post('/test', test);
 router.post('/swagger/test', sign.checkApiKey, test);

@@ -36,12 +36,29 @@
 *        date:
 *          type: string
 *          example: 2022-07-29
+*        cost:
+*          type: integer
+*          example: 15000
+*        time:
+*          type: integer
+*          example: 60
 *        etc:
 *          type: string
 *          example: this is test for API
 *        grade:
 *          type: integer
 *          example: 5
+*    Designer:
+*      required:
+*      - designer
+*      type: object
+*      properties:
+*        designer:
+*          type: string
+*          example: 미라클
+*        salon:
+*          type: string
+*          example: 에코노베이션
 *  securitySchemes:
 *    ApiKeyAuth:
 *      type: apiKey
