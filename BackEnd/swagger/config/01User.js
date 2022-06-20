@@ -8,7 +8,7 @@
 *           summary: 회원가입 페이지
 *           responses:
 *               "200":
-*                   description: 회원가입 페이지 로드 성공
+*                   description: "successful operation"
 *       post:
 *           tags:
 *           - Join
@@ -31,7 +31,7 @@
 *           summary: 로그인 페이지
 *           responses:
 *               "200":
-*                   description: 로그인 페이지 로드 성공
+*                   description: "successful operation"
 *       post:
 *           tags:
 *           - Login
@@ -45,5 +45,5 @@
 *               required: true
 *           responses:
 *               "201":
-*                   description: Created
+*                   description: "successful operation"
 */
