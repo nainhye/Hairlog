@@ -23,6 +23,13 @@ module.exports = class Record extends Sequelize.Model {
         type: DataTypes.INTEGER(40),
         allowNull: false,
       },
+      category: {
+        type: DataTypes.STRING(40),
+        allowNull: false,
+        validate : {
+          isIn : [['cut', 'perm', 'dyeing']]
+        },
+      },
       etc: {
         type: DataTypes.STRING(300),
         allowNull: true,

@@ -3,7 +3,7 @@ const { DataTypes, Sequelize } = require('sequelize');
 module.exports = class Dyeing extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
-      name: {
+      color: {
         type: DataTypes.STRING(40),
         allowNull: false,
       },
