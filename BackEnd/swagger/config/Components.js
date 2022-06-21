@@ -154,7 +154,7 @@
 *          example: 에코노베이션
 *        fav:
 *          type: boolean
-*          example: true
+*          example: ture
 *  securitySchemes:
 *    ApiKeyAuth:
 *      type: apiKey
