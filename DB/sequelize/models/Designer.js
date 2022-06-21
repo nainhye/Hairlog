@@ -27,6 +27,11 @@ module.exports = class Designer extends Sequelize.Model {
             }
         }
       },
+      fav: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue : false
+      },
     }, {
       sequelize,
       timestamps: true,
