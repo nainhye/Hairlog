@@ -30,7 +30,7 @@ module.exports = class Designer extends Sequelize.Model {
       fav: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue : false
+        defaultValue : true
       },
     }, {
       sequelize,
