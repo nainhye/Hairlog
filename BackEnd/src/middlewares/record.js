@@ -49,9 +49,9 @@ var Post = {
         }
     },
     designer : async function(req, res) {
-        var {designer, salon} = req.body;
+        var {designer, salon, fav} = req.body;
         var user = await User.findOne({wherer : {id : req.user.id}});
-        var designerRecord = await user.createDesigner({designer, salon})
+        var designerRecord = await user.createDesigner({designer, salon, fav})
         res.send(designerRecord)
     }
 
