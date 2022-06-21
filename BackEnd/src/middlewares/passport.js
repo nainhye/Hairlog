@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt');
 
 var User = require('../../../DB/sequelize/models/User');
 
-exports.join = async (req, res, next) => {
+
+join = async (req, res, next) => {
     const { email, password, name, sex, cycle } = req.body;
     try {
       const exUser = await User.findOne({ where: { name } });
@@ -26,7 +27,7 @@ exports.join = async (req, res, next) => {
     }
   }
 
-exports.authenticate = (req, res, next) => {
+authenticate = (req, res, next) => {
     passport.authenticate('local', (authError, user) => {
       if (authError) {
         console.error(authError);
@@ -45,7 +46,7 @@ exports.authenticate = (req, res, next) => {
     })(req, res, next);
 };
 
-exports.isLoggedIn = (req, res, next) => {
+isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
       next();
   } else {
@@ -53,7 +54,7 @@ exports.isLoggedIn = (req, res, next) => {
   }
 };
 
-exports.isNotLoggedIn = (req, res, next) => {
+isNotLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
       next();
   } else {
@@ -62,8 +63,10 @@ exports.isNotLoggedIn = (req, res, next) => {
   }
 };
 
-exports.deleteAPITest = async (req, res, next) => {
+deleteAPITest = async (req, res, next) => {
     await User.destroy({ where: { name:  "나나김"} });
     res.send("delete")
 };
 
+
+module.exports = { join , authenticate, isLoggedIn, isNotLoggedIn, deleteAPITest}
