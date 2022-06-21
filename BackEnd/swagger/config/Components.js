@@ -152,6 +152,9 @@
 *        salon:
 *          type: string
 *          example: 에코노베이션
+*        fav:
+*          type: boolean
+*          example: ture
 *  securitySchemes:
 *    ApiKeyAuth:
 *      type: apiKey

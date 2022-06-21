@@ -1,8 +1,11 @@
 var User = require('../../../DB/sequelize/models/User')
 var Designer = require('../../../DB/sequelize/models/Designer')
+var Image = require('../../../DB/sequelize/models/Image')
 var Cut = require('../../../DB/sequelize/models/Cut')
 var Perm = require('../../../DB/sequelize/models/Perm')
 var Dyeing = require('../../../DB/sequelize/models/Dyeing')
+
+var show = require('@jongjun/console')
 
 var Post = {
     
@@ -17,7 +20,7 @@ var Post = {
     
     recordDesigner :  async function(req, category, userInstance) {
         var {date, cost, time, designerName, etc, grade} = req.body;
-        if(designer){
+        if(designerName){
             var designer = await Designer.findOne({where : { designer : designerName }})
             var record = await userInstance.createRecord({ date, cost, time, category, etc, grade, DesignerId : designer.id })
             var image = await record.createImage({ img1 : req.file.filename})
@@ -48,12 +51,13 @@ var Post = {
                 return dyeing
         }
     },
+    
     designer : async function(req, res) {
-        var {designer, salon} = req.body;
+        var {designer, salon, fav} = req.body;
         var user = await User.findOne({wherer : {id : req.user.id}});
-        var designerRecord = await user.createDesigner({designer, salon})
+        var designerRecord = await user.createDesigner({designer, salon, fav})
         res.send(designerRecord)
-    }
+    },
 
 }
 
