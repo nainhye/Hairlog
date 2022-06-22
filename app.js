@@ -22,7 +22,7 @@ var dotenv = require('dotenv'),
 
 // config
 dotenv.config();
-sequelize.sync();
+sequelize.sync({force : true});
 passportConfig();
 
 
@@ -37,7 +37,11 @@ app.set('httpPort', process.env.HTTP_PORT || 3000);
 // view engine setup
 app.set('views', path.join(__dirname, '/BackEnd/views'));
 app.set('view engine', 'jade');
-
+// app.set('view engine', 'html');
+// nunjucks.configure(path.join(__dirname, 'html 위치'), {
+//   express: app,
+//   watch: true
+// });
 
 // add middleware
 app.use(logger('dev'));
