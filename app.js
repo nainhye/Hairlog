@@ -22,7 +22,7 @@ var dotenv = require('dotenv'),
 
 // config
 dotenv.config();
-sequelize.sync({force : true});
+sequelize.sync();
 passportConfig();
 
 
@@ -62,7 +62,7 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 
-const Swagger = require('./BackEnd/swagger/Swagger');
+const Swagger = require('./Swagger/Swagger');
 
 // add router
 app.use('/', indexRouter);
